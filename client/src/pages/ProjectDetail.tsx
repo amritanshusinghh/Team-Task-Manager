@@ -38,7 +38,7 @@ const ProjectDetail = () => {
   const [editPriority, setEditPriority] = useState('');
   const [editAssigneeIds, setEditAssigneeIds] = useState<string[]>([]);
 
-  const fetchProject = async () => { try { const res = await api.get(`/projects/${id}`); setProject(res.data); } catch { /* ignore */ } };
+  const fetchProject = async () => { try { const res = await api.get(`/projects/${id}`); setProject(res.data); } catch {  } };
 
   const fetchTasks = async () => {
     try {
@@ -59,7 +59,7 @@ const ProjectDetail = () => {
         const myIds = new Set(myRes.data.map((t: Task) => t._id));
         setOtherTasks(allRes.data.filter((t: Task) => !myIds.has(t._id)));
       }
-    } catch { /* ignore */ }
+    } catch {  }
     finally { setLoading(false); }
   };
 
@@ -217,7 +217,7 @@ const ProjectDetail = () => {
         <div className="search-wrapper"><Search size={14} /><input type="text" className="search-input" placeholder="Search tasks..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} /></div>
       </div>
 
-      {/* My Tasks / All Tasks */}
+      {}
       <h2 style={{ marginBottom: '1rem' }}>{user?.role === 'ADMIN' ? 'All Tasks' : 'My Tasks'}</h2>
       {myTasks.length === 0 ? (
         <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
@@ -225,7 +225,7 @@ const ProjectDetail = () => {
         </div>
       ) : viewMode === 'list' ? renderTable(myTasks) : renderBoard(myTasks)}
 
-      {/* Other Members' Tasks (Member only) */}
+      {}
       {user?.role === 'MEMBER' && otherTasks.length > 0 && (
         <>
           <div className="section-label">Other Members' Tasks (Read Only)</div>
@@ -233,7 +233,7 @@ const ProjectDetail = () => {
         </>
       )}
 
-      {/* Task Detail Modal */}
+      {}
       {selectedTask && (
         <div className="modal-overlay" onClick={() => setSelectedTask(null)}>
           <div className="glass-card modal-content" style={{ maxWidth: '550px' }} onClick={(e) => e.stopPropagation()}>
@@ -244,7 +244,7 @@ const ProjectDetail = () => {
             {selectedTask.description && <div style={{ marginBottom: '1.2rem' }}><label style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase' }}>Description</label><p style={{ whiteSpace: 'pre-wrap', fontSize: '0.9rem', marginTop: '0.3rem' }}>{selectedTask.description}</p></div>}
 
             {isMyTask(selectedTask) ? (
-              /* Editable view */
+              
               <div style={{ display: 'grid', gap: '1rem', marginBottom: '1.2rem' }}>
                 <div className="form-group" style={{ margin: 0 }}><label className="form-label">Status</label>
                   <select className="form-input" value={editStatus} onChange={(e) => setEditStatus(e.target.value)}>{STATUSES.map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}</select>
@@ -272,7 +272,7 @@ const ProjectDetail = () => {
                 </div>
               </div>
             ) : (
-              /* Read-only view */
+              
               <div style={{ display: 'grid', gap: '0.8rem', marginBottom: '1.2rem' }}>
                 <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}><span className={`badge badge-${selectedTask.status}`}>{STATUS_LABELS[selectedTask.status]}</span><span className={`badge priority-${selectedTask.priority}`}>{selectedTask.priority}</span></div>
                 <div><label style={{ color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase' }}>Assignees</label><p>{selectedTask.assignees?.length > 0 ? selectedTask.assignees.map(a => a.name).join(', ') : 'Unassigned'}</p></div>
@@ -291,7 +291,7 @@ const ProjectDetail = () => {
         </div>
       )}
 
-      {/* Create Task Modal */}
+      {}
       {showCreateTask && (
         <div className="modal-overlay">
           <div className="glass-card modal-content" style={{ maxWidth: '480px' }}>
@@ -322,7 +322,7 @@ const ProjectDetail = () => {
         </div>
       )}
 
-      {/* Confirm Modal */}
+      {}
       {confirmAction && <ConfirmModal title={confirmAction.title} message={confirmAction.message} onConfirm={confirmAction.onConfirm} onCancel={() => setConfirmAction(null)} danger confirmLabel="Delete" />}
     </div>
   );

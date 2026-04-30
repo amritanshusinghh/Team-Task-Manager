@@ -20,12 +20,12 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="app-container">
-      {/* Hamburger button — visible only on mobile */}
+      {}
       <button className="hamburger-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
         <Menu size={22} />
       </button>
 
-      {/* Overlay to close sidebar on mobile tap */}
+      {}
       <div
         className={`sidebar-overlay ${sidebarOpen ? 'active' : ''}`}
         onClick={() => setSidebarOpen(false)}
@@ -33,7 +33,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
 
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Spacer to offset main content on desktop (sidebar is fixed) */}
+      {}
       <div className="sidebar-spacer" />
 
       <main className="main-content">

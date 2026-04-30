@@ -22,11 +22,10 @@ const Projects = () => {
   const [selectedMemberId, setSelectedMemberId] = useState('');
   const [error, setError] = useState('');
 
-  // Confirm modal state
   const [confirmAction, setConfirmAction] = useState<{ title: string; message: string; onConfirm: () => void } | null>(null);
 
-  const fetchProjects = async () => { try { const res = await api.get('/projects'); setProjects(res.data); } catch { /* ignore */ } finally { setLoading(false); } };
-  const fetchMembers = async () => { if (user?.role !== 'ADMIN') return; try { const res = await api.get('/users/members'); setAllMembers(res.data); } catch { /* ignore */ } };
+  const fetchProjects = async () => { try { const res = await api.get('/projects'); setProjects(res.data); } catch {  } finally { setLoading(false); } };
+  const fetchMembers = async () => { if (user?.role !== 'ADMIN') return; try { const res = await api.get('/users/members'); setAllMembers(res.data); } catch {  } };
 
   useEffect(() => { fetchProjects(); fetchMembers(); }, []);
 
@@ -127,7 +126,7 @@ const Projects = () => {
         </div>
       )}
 
-      {/* Create Project Modal */}
+      {}
       {showCreateModal && (
         <div className="modal-overlay"><div className="glass-card modal-content">
           <h2 style={{ marginBottom: '1.5rem' }}>Create Project</h2>
@@ -144,7 +143,7 @@ const Projects = () => {
         </div></div>
       )}
 
-      {/* Add Member Modal */}
+      {}
       {showAddMemberModal && (
         <div className="modal-overlay"><div className="glass-card modal-content">
           <h2 style={{ marginBottom: '1.5rem' }}>Add Member</h2>
@@ -157,7 +156,7 @@ const Projects = () => {
         </div></div>
       )}
 
-      {/* Confirm Modal */}
+      {}
       {confirmAction && <ConfirmModal title={confirmAction.title} message={confirmAction.message} onConfirm={confirmAction.onConfirm} onCancel={() => setConfirmAction(null)} danger confirmLabel="Delete" />}
     </div>
   );

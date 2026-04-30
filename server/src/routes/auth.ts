@@ -6,7 +6,6 @@ import { authenticateToken, AuthRequest } from '../middleware/auth';
 
 const router = express.Router();
 
-// Register - Always MEMBER, auto-login
 router.post('/register', async (req, res): Promise<void> => {
   try {
     const { name, email, password, designation } = req.body;
@@ -62,7 +61,6 @@ router.post('/register', async (req, res): Promise<void> => {
   }
 });
 
-// Login
 router.post('/login', async (req, res): Promise<void> => {
   try {
     const { email, password, loginRole } = req.body;
@@ -104,7 +102,6 @@ router.post('/login', async (req, res): Promise<void> => {
   }
 });
 
-// Change password
 router.post('/change-password', authenticateToken, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { oldPassword, newPassword } = req.body;

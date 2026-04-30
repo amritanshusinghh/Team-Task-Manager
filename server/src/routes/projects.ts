@@ -7,7 +7,6 @@ import Task from '../models/Task';
 const router = express.Router();
 const VALID_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'URGENT'];
 
-// Get all projects
 router.get('/', authenticateToken, async (req: AuthRequest, res) => {
   try {
     let projects;
@@ -28,7 +27,6 @@ router.get('/', authenticateToken, async (req: AuthRequest, res) => {
   }
 });
 
-// Get single project
 router.get('/:id', authenticateToken, async (req: AuthRequest, res): Promise<void> => {
   try {
     const project = await Project.findById(req.params.id)
@@ -54,7 +52,6 @@ router.get('/:id', authenticateToken, async (req: AuthRequest, res): Promise<voi
   }
 });
 
-// Create project (Admin only)
 router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { name, description, memberIds, priority } = req.body;
@@ -95,7 +92,6 @@ router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res):
   }
 });
 
-// Update project priority (Admin only)
 router.patch('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { priority } = req.body;
@@ -123,7 +119,6 @@ router.patch('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, r
   }
 });
 
-// Add member to project (Admin only)
 router.post('/:id/members', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { userId } = req.body;
@@ -167,7 +162,6 @@ router.post('/:id/members', authenticateToken, requireAdmin, async (req: AuthReq
   }
 });
 
-// Remove member from project (Admin only)
 router.delete('/:id/members/:userId', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const project = await Project.findById(req.params.id);
@@ -193,7 +187,6 @@ router.delete('/:id/members/:userId', authenticateToken, requireAdmin, async (re
   }
 });
 
-// Delete project (Admin only) — also deletes all tasks in the project
 router.delete('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const project = await Project.findById(req.params.id);
@@ -202,7 +195,6 @@ router.delete('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, 
       return;
     }
 
-    // Delete all tasks associated with this project
     await Task.deleteMany({ project: req.params.id });
 
     await Project.findByIdAndDelete(req.params.id);

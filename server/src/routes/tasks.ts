@@ -9,8 +9,6 @@ const router = express.Router();
 const VALID_STATUSES = ['PROPOSED', 'IN_PROGRESS', 'NEEDS_REVIEW', 'COMPLETE', 'ON_HOLD'];
 const VALID_PRIORITIES = ['LOW', 'MEDIUM', 'HIGH', 'URGENT'];
 
-// Get tasks
-// Admin: all tasks. Member: own tasks + optional all tasks with ?includeAll=true
 router.get('/', authenticateToken, async (req: AuthRequest, res) => {
   try {
     const { projectId, status, assigneeId, search, priority, includeAll } = req.query;
@@ -21,7 +19,6 @@ router.get('/', authenticateToken, async (req: AuthRequest, res) => {
     if (assigneeId) query.assignees = assigneeId;
     if (search) query.title = { $regex: search, $options: 'i' };
 
-    // Member: by default only own tasks, unless includeAll=true (read-only on frontend)
     if (req.user!.role === 'MEMBER' && includeAll !== 'true') {
       query.assignees = req.user!.id;
     }
@@ -36,7 +33,6 @@ router.get('/', authenticateToken, async (req: AuthRequest, res) => {
   }
 });
 
-// Create task (Admin only) — auto-sets PROPOSED status
 router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { title, description, notes, dueDate, projectId, assigneeIds, priority } = req.body;
@@ -56,7 +52,6 @@ router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res):
       return;
     }
 
-    // Validate assignees
     if (assigneeIds && assigneeIds.length > 0) {
       for (const aid of assigneeIds) {
         const assignee = await User.findById(aid);
@@ -85,7 +80,7 @@ router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res):
       project: projectId,
       assignees: assigneeIds || [],
       priority: priority || 'MEDIUM',
-      status: 'PROPOSED' // Auto-set PROPOSED
+      status: 'PROPOSED' 
     });
 
     await task.save();
@@ -98,7 +93,6 @@ router.post('/', authenticateToken, requireAdmin, async (req: AuthRequest, res):
   }
 });
 
-// Update task
 router.patch('/:id', authenticateToken, async (req: AuthRequest, res): Promise<void> => {
   try {
     const { status, dueDate, assigneeIds, priority, notes } = req.body;
@@ -145,7 +139,6 @@ router.patch('/:id', authenticateToken, async (req: AuthRequest, res): Promise<v
       task.priority = priority;
     }
 
-    // Admin can reassign — auto-set PROPOSED when assigning
     if (assigneeIds !== undefined && req.user!.role === 'ADMIN') {
       if (assigneeIds && assigneeIds.length > 0) {
         const project = await Project.findById(task.project);
@@ -163,7 +156,7 @@ router.patch('/:id', authenticateToken, async (req: AuthRequest, res): Promise<v
             }
           }
         }
-        // Auto-set PROPOSED when admin assigns
+        
         const hadAssignees = task.assignees.length > 0;
         task.assignees = assigneeIds;
         if (!hadAssignees && assigneeIds.length > 0) {
@@ -184,7 +177,6 @@ router.patch('/:id', authenticateToken, async (req: AuthRequest, res): Promise<v
   }
 });
 
-// Delete task (Admin only)
 router.delete('/:id', authenticateToken, requireAdmin, async (req: AuthRequest, res): Promise<void> => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);

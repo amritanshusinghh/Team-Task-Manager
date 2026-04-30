@@ -37,14 +37,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   };
 
   const handleNavClick = () => {
-    onClose(); // close sidebar on mobile when navigating
+    onClose(); 
   };
 
   const initials = user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?';
 
   return (
     <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-      {/* Header */}
+      {}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
           <CheckCircle size={24} color="var(--accent-primary)" />
@@ -54,14 +54,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           <button className="theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
-          {/* Close button on mobile */}
+          {}
           <button className="theme-toggle" onClick={onClose} style={{ display: 'none' }} id="sidebar-close-btn">
             <X size={16} />
           </button>
         </div>
       </div>
 
-      {/* Navigation */}
+      {}
       <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
         <NavLink to="/" end className={({ isActive }) => `btn ${isActive ? 'btn-primary' : 'btn-secondary'}`} style={{ justifyContent: 'flex-start', padding: '0.7rem 1rem' }} onClick={handleNavClick}>
           <LayoutDashboard size={18} /> Dashboard
@@ -71,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </NavLink>
       </nav>
 
-      {/* Profile Section — shows designation, NOT role */}
+      {}
       <div style={{ marginTop: 'auto', paddingTop: '1.5rem', borderTop: '1px solid var(--border-color)' }}>
         <button className="profile-btn" onClick={() => setShowProfile(true)}>
           <div className="profile-avatar">{initials}</div>
@@ -84,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </button>
       </div>
 
-      {/* Profile Modal */}
+      {}
       {showProfile && (
         <div className="modal-overlay" onClick={() => { setShowProfile(false); setShowChangePass(false); setPassMsg(''); setPassErr(''); }}>
           <div className="glass-card modal-content" style={{ maxWidth: '400px' }} onClick={(e) => e.stopPropagation()}>

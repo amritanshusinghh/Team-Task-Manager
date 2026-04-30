@@ -4,7 +4,6 @@ import User from '../models/User';
 
 const router = express.Router();
 
-// Get all members (Admin only) — used to populate dropdowns for assigning members
 router.get('/members', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const members = await User.find({ role: 'MEMBER' }).select('-password');

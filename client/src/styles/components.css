@@ -1,4 +1,3 @@
-/* ===== BUTTONS ===== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -41,7 +40,6 @@
 .btn-danger:hover { background: rgba(239, 68, 68, 0.25); }
 .btn-sm { padding: 0.35rem 0.7rem; font-size: 0.8rem; }
 
-/* ===== FORMS ===== */
 .form-group { margin-bottom: 1.2rem; }
 .form-label {
   display: block;
@@ -77,7 +75,6 @@ select.form-input {
 select.form-input option { background: var(--select-bg); color: var(--text-main); }
 textarea.form-input { resize: vertical; min-height: 60px; }
 
-/* ===== GLASSMORPHISM ===== */
 .glass-panel {
   background: var(--bg-panel);
   backdrop-filter: blur(12px);
@@ -97,7 +94,6 @@ textarea.form-input { resize: vertical; min-height: 60px; }
   border-color: var(--border-light);
 }
 
-/* ===== BADGES ===== */
 .badge {
   padding: 0.25rem 0.6rem;
   border-radius: 9999px;
@@ -122,7 +118,6 @@ textarea.form-input { resize: vertical; min-height: 60px; }
 .priority-dot-HIGH { background-color: var(--priority-high); }
 .priority-dot-URGENT { background-color: var(--priority-urgent); }
 
-/* ===== VIEW TOGGLE ===== */
 .view-toggle {
   display: flex;
   background: var(--bg-input);
@@ -146,11 +141,9 @@ textarea.form-input { resize: vertical; min-height: 60px; }
 }
 .view-toggle-btn.active { background: var(--accent-primary); color: white; }
 
-/* ===== FILTER BAR ===== */
 .filter-bar { display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
 .filter-bar .form-input { width: auto; min-width: 140px; padding: 0.5rem 0.8rem; font-size: 0.85rem; }
 
-/* ===== SEARCH ===== */
 .search-input {
   background: var(--bg-input);
   border: 1px solid var(--border-color);
@@ -166,13 +159,11 @@ textarea.form-input { resize: vertical; min-height: 60px; }
 .search-wrapper { position: relative; display: inline-flex; align-items: center; }
 .search-wrapper svg { position: absolute; left: 0.6rem; color: var(--text-muted); pointer-events: none; }
 
-/* ===== MULTI-SELECT ===== */
 .multi-select { max-height: 150px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; }
 .multi-select label { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; transition: background 0.15s; }
 .multi-select label:hover { background: var(--bg-input); }
 .multi-select input[type="checkbox"] { accent-color: var(--accent-primary); }
 
-/* ===== SECTION DIVIDER ===== */
 .section-label {
   font-size: 0.75rem;
   font-weight: 600;
@@ -184,7 +175,6 @@ textarea.form-input { resize: vertical; min-height: 60px; }
   border-bottom: 1px solid var(--border-color);
 }
 
-/* ===== SPINNER ===== */
 .spinner {
   width: 24px; height: 24px;
   border: 3px solid var(--border-color);

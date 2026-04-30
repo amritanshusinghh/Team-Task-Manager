@@ -39,10 +39,10 @@ const Dashboard = () => {
         setMyTasks(res.data);
         setOtherTasks([]);
       } else {
-        // Member: get own tasks
+        
         const myRes = await api.get(`/tasks?${params.toString()}`);
         setMyTasks(myRes.data);
-        // Get all tasks for read-only (only if no assignee filter set)
+        
         const allParams = new URLSearchParams(params);
         allParams.set('includeAll', 'true');
         const allRes = await api.get(`/tasks?${allParams.toString()}`);
@@ -56,7 +56,7 @@ const Dashboard = () => {
   const fetchMembers = async () => {
     if (user?.role !== 'ADMIN') return;
     try { const res = await api.get('/users/members'); setAllMembers(res.data); }
-    catch { /* ignore */ }
+    catch {  }
   };
 
   useEffect(() => { if (user) { fetchTasks(); fetchMembers(); } }, [user]);
@@ -173,7 +173,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      {/* Stats — Total, Proposed, In Progress, Complete, On Hold, Overdue */}
+      {}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
         {[
           { label: 'Total', value: stats.total, color: 'var(--text-main)' },
@@ -190,7 +190,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Filters — both Admin and Member get search + priority. Admin also gets status + assignee. */}
+      {}
       <div className="filter-bar">
         <div className="search-wrapper">
           <Search size={14} />
@@ -212,7 +212,7 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* My Tasks */}
+      {}
       <h2 style={{ marginBottom: '1rem' }}>{user?.role === 'ADMIN' ? 'All Tasks' : 'My Tasks'}</h2>
       {myTasks.length === 0 ? (
         <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)', marginBottom: '2rem' }}>
@@ -221,7 +221,7 @@ const Dashboard = () => {
         </div>
       ) : viewMode === 'list' ? renderTable(myTasks) : renderBoard(myTasks)}
 
-      {/* Other Members' Tasks (Member only, read-only) */}
+      {}
       {user?.role === 'MEMBER' && otherTasks.length > 0 && (
         <>
           <div className="section-label">Other Members' Tasks (Read Only)</div>
@@ -229,7 +229,7 @@ const Dashboard = () => {
         </>
       )}
 
-      {/* Task Detail Modal (read-only) */}
+      {}
       {selectedTask && (
         <div className="modal-overlay" onClick={() => setSelectedTask(null)}>
           <div className="glass-card modal-content" onClick={(e) => e.stopPropagation()}>
