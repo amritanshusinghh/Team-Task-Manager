@@ -1,6 +1,9 @@
 {
   "name": "ethara-task-manager",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20"
+  },
   "description": "Team Task Manager — Full-Stack with React, Node.js, Express, MongoDB",
   "main": "index.js",
   "scripts": {
