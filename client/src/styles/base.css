@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ===== DARK THEME (default) ===== */
+:root, [data-theme="dark"] {
+  --bg-main: #0f1115;
+  --bg-panel: rgba(25, 28, 35, 0.6);
+  --bg-card: rgba(30, 35, 45, 0.8);
+  --bg-input: rgba(0, 0, 0, 0.2);
+  --text-main: #e2e8f0;
+  --text-muted: #94a3b8;
+  --text-heading: #fff;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
+  --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.15);
+  --select-bg: #1a1d24;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  --sidebar-bg: rgba(15, 17, 21, 0.95);
+  --modal-bg: rgba(0,0,0,0.7);
+}
+
+/* ===== LIGHT THEME ===== */
+[data-theme="light"] {
+  --bg-main: #f0f2f5;
+  --bg-panel: rgba(255, 255, 255, 0.85);
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-input: rgba(0, 0, 0, 0.04);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --text-heading: #0f172a;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-light: rgba(0, 0, 0, 0.15);
+  --select-bg: #fff;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.12);
+  --sidebar-bg: rgba(255, 255, 255, 0.95);
+  --modal-bg: rgba(0,0,0,0.4);
+}
+
+/* ===== STATUS / PRIORITY COLORS ===== */
+:root {
+  --priority-low: #64748b;
+  --priority-medium: #3b82f6;
+  --priority-high: #f59e0b;
+  --priority-urgent: #ef4444;
+  --status-proposed: #64748b;
+  --status-in-progress: #3b82f6;
+  --status-needs-review: #f59e0b;
+  --status-complete: #10b981;
+  --status-on-hold: #ef4444;
+  --border-radius: 12px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== RESET ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4 { font-weight: 600; color: var(--text-heading); letter-spacing: -0.02em; }
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.3rem; }
