@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { CheckCircle, Shield, User, Briefcase } from 'lucide-react';
+import { CheckCircle, Shield, User } from 'lucide-react';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
