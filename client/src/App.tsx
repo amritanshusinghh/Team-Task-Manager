@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Login from './pages/Login';
+import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
+import NotFound from './pages/NotFound';
 import Sidebar from './components/Sidebar';
 import { Menu } from 'lucide-react';
 
@@ -12,6 +14,13 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, loading } = useAuth();
   if (loading) return <div className="app-container" style={{ alignItems: 'center', justifyContent: 'center' }}><div className="spinner"></div></div>;
   if (!isAuthenticated) return <Navigate to="/login" />;
+  return <>{children}</>;
+};
+
+const RedirectIfAuth = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated, loading } = useAuth();
+  if (loading) return <div className="app-container" style={{ alignItems: 'center', justifyContent: 'center' }}><div className="spinner"></div></div>;
+  if (isAuthenticated) return <Navigate to="/dashboard" />;
   return <>{children}</>;
 };
 
@@ -47,9 +56,16 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        {/* Public landing page */}
+        <Route path="/" element={<LandingPage />} />
 
-        <Route path="/" element={
+        {/* Login — redirects to dashboard if already authenticated */}
+        <Route path="/login" element={
+          <RedirectIfAuth><Login /></RedirectIfAuth>
+        } />
+
+        {/* Protected routes */}
+        <Route path="/dashboard" element={
           <ProtectedRoute><AppLayout><Dashboard /></AppLayout></ProtectedRoute>
         } />
 
@@ -60,6 +76,9 @@ const App = () => {
         <Route path="/projects/:id" element={
           <ProtectedRoute><AppLayout><ProjectDetail /></AppLayout></ProtectedRoute>
         } />
+
+        {/* 404 page for unknown routes */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

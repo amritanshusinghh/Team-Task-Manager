@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { CheckCircle, Shield, User } from 'lucide-react';
+import { Shield, User, ArrowRight, Sun, Moon, ArrowLeft } from 'lucide-react';
+import faviconUrl from '../assets/favicon.svg';
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const location = useLocation();
+  const initialMode = (location.state as any)?.mode === 'register' ? false : true;
+  const [isLogin, setIsLogin] = useState(initialMode);
   const [loginRole, setLoginRole] = useState<'ADMIN' | 'MEMBER'>('MEMBER');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +17,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth();
+  const { login, theme, toggleTheme } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -25,11 +28,11 @@ const Login = () => {
       if (isLogin) {
         const res = await api.post('/auth/login', { email, password, loginRole });
         login(res.data.token, res.data.user);
-        navigate('/');
+        navigate('/dashboard');
       } else {
         const res = await api.post('/auth/register', { name, email, password, designation });
         login(res.data.token, res.data.user);
-        navigate('/');
+        navigate('/dashboard');
       }
     } catch (err: any) {
       setError(err.response?.data?.error || 'An error occurred.');
@@ -38,66 +41,182 @@ const Login = () => {
     }
   };
 
+  const fillDemoCredentials = (role: 'ADMIN' | 'MEMBER') => {
+    if (role === 'ADMIN') {
+      setEmail('admin@test.com');
+      setLoginRole('ADMIN');
+    } else {
+      setEmail('member@test.com');
+      setLoginRole('MEMBER');
+    }
+    setPassword('password123');
+    setIsLogin(true);
+    setError('');
+  };
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
-      <div className="glass-card" style={{ maxWidth: '420px', width: '100%', padding: '2.5rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
-          <CheckCircle size={48} color="var(--accent-primary)" style={{ marginBottom: '1rem' }} />
-          <h2 style={{ textAlign: 'center', margin: 0 }}>{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
-          <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>Team Task Manager</p>
+    <div className="auth-page">
+      {/* Background decorations */}
+      <div className="auth-bg-orb auth-bg-orb--1" />
+      <div className="auth-bg-orb auth-bg-orb--2" />
+      <div className="auth-bg-orb auth-bg-orb--3" />
+
+      {/* Top bar */}
+      <div className="auth-topbar">
+        <button className="btn-cta-outline" onClick={() => navigate('/')} style={{ padding: '0.5rem 1rem', fontSize: '0.85rem' }}>
+          <ArrowLeft size={14} /> Home
+        </button>
+        <button
+          className="theme-toggle"
+          onClick={toggleTheme}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+      </div>
+
+      {/* Main card */}
+      <div className="auth-card">
+        {/* Header */}
+        <div className="auth-header">
+          <div className="auth-logo">
+            <img src={faviconUrl} alt="EtharaTasks" style={{ width: 36, height: 36 }} />
+          </div>
+          <h1 className="auth-title">{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
+          <p className="auth-subtitle">
+            {isLogin ? 'Sign in to your EtharaTasks workspace' : 'Join your team on EtharaTasks'}
+          </p>
         </div>
 
+        {/* Role toggle (login only) */}
         {isLogin && (
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', background: 'var(--bg-input)', borderRadius: '10px', padding: '4px' }}>
-            <button type="button" className={loginRole === 'MEMBER' ? 'btn btn-primary' : 'btn btn-secondary'} style={{ flex: 1, padding: '0.6rem', border: loginRole === 'MEMBER' ? 'none' : '1px solid transparent' }} onClick={() => setLoginRole('MEMBER')}>
-              <User size={16} /> Member
+          <div className="auth-role-toggle">
+            <button
+              type="button"
+              className={`auth-role-btn ${loginRole === 'MEMBER' ? 'auth-role-btn--active' : ''}`}
+              onClick={() => setLoginRole('MEMBER')}
+            >
+              <User size={15} /> Member
             </button>
-            <button type="button" className={loginRole === 'ADMIN' ? 'btn btn-primary' : 'btn btn-secondary'} style={{ flex: 1, padding: '0.6rem', border: loginRole === 'ADMIN' ? 'none' : '1px solid transparent' }} onClick={() => setLoginRole('ADMIN')}>
-              <Shield size={16} /> Admin
+            <button
+              type="button"
+              className={`auth-role-btn ${loginRole === 'ADMIN' ? 'auth-role-btn--active' : ''}`}
+              onClick={() => setLoginRole('ADMIN')}
+            >
+              <Shield size={15} /> Admin
             </button>
           </div>
         )}
 
+        {/* Signup notice */}
         {!isLogin && (
-          <div style={{ padding: '0.8rem', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: '8px', color: '#93c5fd', marginBottom: '1.5rem', textAlign: 'center', fontSize: '0.85rem' }}>
+          <div className="auth-notice auth-notice--info">
             Signup is for <strong>Members</strong> only. Admin access is granted manually.
           </div>
         )}
 
+        {/* Error */}
         {error && (
-          <div style={{ padding: '0.8rem', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', color: '#fca5a5', marginBottom: '1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>
+          <div className="auth-notice auth-notice--error">{error}</div>
         )}
 
-        <form onSubmit={handleSubmit}>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="auth-form">
           {!isLogin && (
             <>
-              <div className="form-group">
-                <label className="form-label">Full Name</label>
-                <input type="text" className="form-input" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} />
+              <div className="auth-field">
+                <label className="auth-label">Full Name</label>
+                <input
+                  type="text"
+                  className="auth-input"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  minLength={2}
+                />
               </div>
-              <div className="form-group">
-                <label className="form-label">Designation / Role</label>
-                <input type="text" className="form-input" placeholder="e.g., Frontend Developer" value={designation} onChange={(e) => setDesignation(e.target.value)} />
+              <div className="auth-field">
+                <label className="auth-label">Designation / Role</label>
+                <input
+                  type="text"
+                  className="auth-input"
+                  placeholder="e.g., Frontend Developer"
+                  value={designation}
+                  onChange={(e) => setDesignation(e.target.value)}
+                />
               </div>
             </>
           )}
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
-            <input type="email" className="form-input" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+
+          <div className="auth-field">
+            <label className="auth-label">Email</label>
+            <input
+              type="email"
+              className="auth-input"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-          <div className="form-group">
-            <label className="form-label">Password</label>
-            <input type="password" className="form-input" placeholder="Min 6 characters" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
+
+          <div className="auth-field">
+            <label className="auth-label">Password</label>
+            <input
+              type="password"
+              className="auth-input"
+              placeholder="Min 6 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+            />
           </div>
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem', padding: '0.8rem' }} disabled={loading}>
-            {loading ? <div className="spinner" style={{ width: 20, height: 20, borderWidth: 2 }}></div> : (isLogin ? `Sign In as ${loginRole === 'ADMIN' ? 'Admin' : 'Member'}` : 'Sign Up as Member')}
+
+          <button type="submit" className="auth-submit-btn" disabled={loading} id="auth-submit-btn">
+            {loading ? (
+              <div className="spinner" style={{ width: 20, height: 20, borderWidth: 2 }} />
+            ) : (
+              <>
+                {isLogin ? `Sign In` : 'Sign Up'} <ArrowRight size={16} />
+              </>
+            )}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', marginTop: '1.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+        {/* Toggle */}
+        <p className="auth-toggle-text">
           {isLogin ? "Don't have an account? " : 'Already have an account? '}
-          <span style={{ color: 'var(--accent-primary)', cursor: 'pointer', fontWeight: 500 }} onClick={() => { setIsLogin(!isLogin); setError(''); }}>{isLogin ? 'Sign up' : 'Sign in'}</span>
+          <span className="auth-toggle-link" onClick={() => { setIsLogin(!isLogin); setError(''); }}>
+            {isLogin ? 'Sign up' : 'Sign in'}
+          </span>
         </p>
+
+        {/* Demo Accounts Section */}
+        {isLogin && (
+          <div className="auth-demo-section">
+            <div className="auth-demo-label">Demo Accounts</div>
+            <div className="auth-demo-buttons">
+              <button
+                type="button"
+                className="auth-demo-btn auth-demo-btn--admin"
+                onClick={() => fillDemoCredentials('ADMIN')}
+                id="demo-admin-btn"
+              >
+                <Shield size={14} /> Admin Demo
+              </button>
+              <button
+                type="button"
+                className="auth-demo-btn auth-demo-btn--member"
+                onClick={() => fillDemoCredentials('MEMBER')}
+                id="demo-member-btn"
+              >
+                <User size={14} /> Member Demo
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

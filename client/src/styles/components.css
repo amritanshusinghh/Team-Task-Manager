@@ -16,11 +16,11 @@
 .btn-primary {
   background: var(--accent-gradient);
   color: white;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
   filter: brightness(1.1);
 }
 .btn-secondary {
@@ -62,7 +62,7 @@
 .form-input:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
 }
 select.form-input {
   appearance: none;
@@ -155,7 +155,7 @@ textarea.form-input { resize: vertical; min-height: 60px; }
   transition: var(--transition);
   min-width: 180px;
 }
-.search-input:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+.search-input:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 3px rgba(139,92,246,0.2); }
 .search-wrapper { position: relative; display: inline-flex; align-items: center; }
 .search-wrapper svg { position: absolute; left: 0.6rem; color: var(--text-muted); pointer-events: none; }
 

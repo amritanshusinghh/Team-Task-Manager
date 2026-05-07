@@ -66,6 +66,7 @@ const Dashboard = () => {
     total: myTasks.length,
     proposed: myTasks.filter(t => t.status === 'PROPOSED').length,
     inProgress: myTasks.filter(t => t.status === 'IN_PROGRESS').length,
+    needsReview: myTasks.filter(t => t.status === 'NEEDS_REVIEW').length,
     complete: myTasks.filter(t => t.status === 'COMPLETE').length,
     onHold: myTasks.filter(t => t.status === 'ON_HOLD').length,
     overdue: myTasks.filter(t => isOverdue(t.dueDate) && t.status !== 'COMPLETE').length
@@ -179,6 +180,7 @@ const Dashboard = () => {
           { label: 'Total', value: stats.total, color: 'var(--text-main)' },
           { label: 'Proposed', value: stats.proposed, color: 'var(--status-proposed)' },
           { label: 'In Progress', value: stats.inProgress, color: 'var(--status-in-progress)' },
+          { label: 'Needs Review', value: stats.needsReview, color: 'var(--status-needs-review)' },
           { label: 'Complete', value: stats.complete, color: 'var(--status-complete)' },
           { label: 'On Hold', value: stats.onHold, color: 'var(--status-on-hold)' },
           { label: 'Overdue', value: stats.overdue, color: '#ef4444', border: stats.overdue > 0 }
